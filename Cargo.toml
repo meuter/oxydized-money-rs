@@ -1,7 +1,14 @@
 [package]
 name = "oxydized-money"
+authors = ["Cédric Meuter <cedric.meuter@gmail.com>"]
 version = "0.1.0"
 edition = "2021"
+description = "Library providing data types to manipulate amounts of money in specific currencies and convert amounts between then"
+readme = "README.md"
+license = "MIT"
+keywords = ["currency", "money"]
+homepage = "https://github.com/meuter/oxydized-money-rs"
+repository = "https://github.com/meuter/oxydized-money-rs"
 
 [dependencies]
 iso_currency = "0.4.4"
