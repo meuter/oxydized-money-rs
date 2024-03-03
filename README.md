@@ -1,11 +1,16 @@
 # Oxydized Money 💵 ↔ 💶
 
+[![Build](https://github.com/meuter/arkiv-rs/actions/workflows/build.yml/badge.svg)](https://github.com/meuter/arkiv-rs/actions/workflows/build.yml)
+[![Test](https://github.com/meuter/arkiv-rs/actions/workflows/test.yml/badge.svg)](https://github.com/meuter/arkiv-rs/actions/workflows/test.yml)
+[![Clippy](https://github.com/meuter/arkiv-rs/actions/workflows/clippy.yml/badge.svg)](https://github.com/meuter/arkiv-rs/actions/workflows/clippy.yml)
+[![Doc](https://github.com/meuter/arkiv-rs/actions/workflows/doc.yml/badge.svg)](https://github.com/meuter/arkiv-rs/actions/workflows/doc.yml)
+
 This crate aims at providing data types to manipulate amounts 
 of money in specific currencies, convert amounts between currencies 
 and make sure that any computation is performed on amounts of the same
 currency.
 
-# Motivations
+## Motivations
 
 This crate was introduced because all the existing known alternatives 
 have some signigicant drawbacks:
@@ -37,7 +42,7 @@ can fail will outout `AmountResult`s. Before getting at the underlying
 
 No more 🦶-guns
 
-# Examples
+## Examples
 
 ```rust
 use oxydized_money_macros::{eur, usd, dec};
@@ -70,7 +75,7 @@ let total = subtotal + extras;
 
 // Comparing AmountResult with Amounts
 assert_eq!(total, eur!(9_395.200));
-
+#
 // AmountResult(EUR) + Amount(USD) => AmountResult(Mismatch(EUR,USD))
 let oops = total + usd!(20);
 
@@ -90,11 +95,11 @@ assert_eq!(
 
 
 
-# Supported Operations 
+## Supported Operations 
 
-## Binary Operations
+### Binary Operations
 
-### `Amount`
+#### `Amount`
 
 | Left Operand    | Operator             | Right Operand   |     Output     |
 |:----------------|:--------------------:|:----------------|:---------------|
@@ -106,7 +111,7 @@ assert_eq!(
 | `Amount`        | {`==`,`!=`}          | `AmountResult`  | `bool`         |
 | `Amount`        | {`<`,`>`,`>=`,`<=` } | `Amount`        | `bool`         |
 
-### `AmountResult`
+#### `AmountResult`
 
 | Left Operand    | Operator             | Right Operand   |     Output     |
 |:----------------|:--------------------:|:----------------|:---------------|
@@ -118,7 +123,7 @@ assert_eq!(
 | `AmountResult`  | {`==`,`!=`}          | `AmountResult`  | `bool`         |
 | `AmountResult`  | {`==`,`!=`}          | `CurrencyError` | `bool`         |
 
-### `CurrencyError` 
+#### `CurrencyError` 
 
 | Left Operand    | Operator             | Right Operand   |     Output     |
 |:----------------|:--------------------:|:----------------|:---------------|
@@ -126,16 +131,16 @@ assert_eq!(
 | `CurrencyError` | {`==`,`!=`}          | `CurrencyError` | `bool`         |
 
 
-## Unary Operations
+### Unary Operations
 
-### `Amount`
+#### `Amount`
 
 | Operator  |     Operand     |     Output     |
 |:---------:|:---------------:|:--------------:|
 | `-`       | `Amount`        | `Amount`       |
 
 
-### `AmountResult`
+#### `AmountResult`
 
 | Operator  |     Operand     |     Output     |
 |:---------:|:---------------:|:--------------:|
