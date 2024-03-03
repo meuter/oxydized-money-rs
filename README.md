@@ -1,9 +1,15 @@
 # Oxydized Money 💵 ↔ 💶
 
-[![Build](https://github.com/meuter/arkiv-rs/actions/workflows/build.yml/badge.svg)](https://github.com/meuter/arkiv-rs/actions/workflows/build.yml)
-[![Test](https://github.com/meuter/arkiv-rs/actions/workflows/test.yml/badge.svg)](https://github.com/meuter/arkiv-rs/actions/workflows/test.yml)
-[![Clippy](https://github.com/meuter/arkiv-rs/actions/workflows/clippy.yml/badge.svg)](https://github.com/meuter/arkiv-rs/actions/workflows/clippy.yml)
-[![Doc](https://github.com/meuter/arkiv-rs/actions/workflows/doc.yml/badge.svg)](https://github.com/meuter/arkiv-rs/actions/workflows/doc.yml)
+[![Build](https://github.com/meuter/oxydized-money-rs/actions/workflows/build.yml/badge.svg)](https://github.com/meuter/oxydized-money-rs/actions/workflows/build.yml)
+[![Test](https://github.com/meuter/oxydized-money-rs/actions/workflows/test.yml/badge.svg)](https://github.com/meuter/oxydized-money-rs/actions/workflows/test.yml)
+[![Clippy](https://github.com/meuter/oxydized-money-rs/actions/workflows/clippy.yml/badge.svg)](https://github.com/meuter/oxydized-money-rs/actions/workflows/clippy.yml)
+[![Doc](https://github.com/meuter/oxydized-money-rs/actions/workflows/docs.yml/badge.svg)](https://github.com/meuter/oxydized-money-rs/actions/workflows/docs.yml)
+
+[![Crates.io](https://img.shields.io/crates/v/oxydized-money)](https://crates.io/crates/oxydized-money)
+[![Docs.rs](https://docs.rs/oxydized-money/badge.svg)](https://docs.rs/oxydized-money)
+[![Crates.io](https://img.shields.io/crates/d/oxydized-money)](https://crates.io/crates/oxydized-money)
+[![Crates.io](https://img.shields.io/crates/l/oxydized-money)](https://github.com/meuter/oxydized-money-rs/blob/main/LICENSE)
+
 
 This crate aims at providing data types to manipulate amounts 
 of money in specific currencies, convert amounts between currencies 
