@@ -1,0 +1,16 @@
+[package]
+name = "oxydized-money"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+iso_currency = "0.4.4"
+rust_decimal = "1.34.3"
+
+[workspace]
+members = ["macros"]
+
+[dev-dependencies]
+assert_matches = "1.5.0"
+oxydized-money-macros = { path = "./macros" }
+rust_decimal_macros = "1.34.2"
