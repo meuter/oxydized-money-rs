@@ -1,7 +1,14 @@
 [package]
 name = "oxydized-money-macros"
+authors = ["Cédric Meuter <cedric.meuter@gmail.com>"]
 version = "0.1.0"
 edition = "2021"
+description = "Companion library to oxydized-gains providing convenience macros"
+readme = "../README.md"
+license = "MIT"
+keywords = ["currency", "money"]
+homepage = "https://github.com/meuter/oxydized-money-rs"
+repository = "https://github.com/meuter/oxydized-money-rs"
 
 [dependencies]
 rust_decimal_macros = { version = "1.34.2", features = ["reexportable"] }
