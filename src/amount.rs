@@ -1,5 +1,9 @@
 use crate::{AmountResult, Currency, CurrencyError, Decimal, Result};
-use std::{cmp::Ordering, fmt::Display};
+use std::{
+    cmp::Ordering,
+    fmt::Display,
+    ops::{Deref, DerefMut},
+};
 
 /// `Amount` represents an amount of money in a specific currency.
 /// The quantity part is stored as a 128-bit fixed precision [`Decimal`].
@@ -50,22 +54,6 @@ impl Amount {
     ///
     pub fn abs(&self) -> Self {
         Amount(self.value().abs(), self.currency())
-    }
-
-    /// Returns `true` if and only if the quantity is zero.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use oxydized_money_macros::{eur};
-    /// use oxydized_money::Decimal;
-    ///
-    /// assert!( ! eur!(10).is_zero());
-    /// assert!( ! eur!(-10).is_zero());
-    /// assert!( eur!(0).is_zero());
-    /// ```
-    pub fn is_zero(&self) -> bool {
-        self.value().is_zero()
     }
 
     /// Returns `self` converted in another currency using the provided
@@ -125,6 +113,20 @@ impl PartialOrd<Amount> for Amount {
     }
 }
 
+impl Deref for Amount {
+    type Target = Decimal;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl DerefMut for Amount {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
 #[cfg(test)]
 mod test {
     use crate as oxydized_money;
@@ -166,5 +168,11 @@ mod test {
         assert_matches!(eur!(1).partial_cmp(&usd!(1)), None);
         assert_matches!(eur!(1).partial_cmp(&usd!(2)), None);
         assert_matches!(eur!(3).partial_cmp(&usd!(2)), None);
+    }
+
+    #[test]
+    fn test_as_ref_decimal() {
+        assert!(eur!(-1).is_sign_negative());
+        assert!(eur!(0).is_zero());
     }
 }
