@@ -25,12 +25,12 @@ have some signigicant drawbacks:
   of precision.
 - using [`rust_decimal::Decimal`](https://crates.io/crates/rust_decimal) solves
   this issue but does not prevent from adding amounts in different currency.
-- using [`rusty_money::Money`](https://crates.io/crates/rusty-money), although slightly
-  better, does not really solve the conversion issue because performing arithmetic
-  operations on amounts of different currencies panics. 
+- using [`rusty_money::Money`](https://crates.io/crates/rusty-money), although 
+  slightly better, does not really solve the conversion issue because performing 
+  arithmetic operations on amounts of different currencies panics. 
 
 Rust being dedicated to proper error handling, all these options feel like 
-compromises. This crate aims to improve this by by providing three distinct 
+compromises. This crate aims to improve this by providing three distinct 
 data types:
 
 - `Amount` for storing amounts in a given currency. 
@@ -61,7 +61,7 @@ use oxydized_money::{
 // Amount(USD)
 let capital = usd!(10_000);
 
-// Decinal
+// Decimal
 let exchange_rate = dec!(0.928);
 
 // Amount(EUR)
