@@ -6,7 +6,7 @@ impl Sub<Amount> for Amount {
 
     fn sub(self, rhs: Amount) -> Self::Output {
         if self.currency() == rhs.currency() {
-            Amount(self.value() - rhs.value(), self.currency()).into()
+            Amount::new(self.value() - rhs.value(), self.currency()).into()
         } else {
             Mismatch(self.currency(), rhs.currency()).into()
         }

@@ -22,7 +22,7 @@ fn generate_currency_macro(file: &mut impl Write, currency: Currency) {
         #[macro_export]
         macro_rules! {code_lower} {{
             ($amount:expr) => {{
-                oxydized_money::Amount(rust_decimal_macros::dec!($amount), oxydized_money::Currency::{code_upper})
+                oxydized_money::Amount::new(rust_decimal_macros::dec!($amount), oxydized_money::Currency::{code_upper})
             }};
         }}
     "#

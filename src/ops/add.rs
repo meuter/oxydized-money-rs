@@ -7,7 +7,7 @@ impl Add<Amount> for Amount {
 
     fn add(self, rhs: Amount) -> Self::Output {
         if self.currency() == rhs.currency() {
-            Amount(self.value() + rhs.value(), self.currency()).into()
+            Amount::new(self.value() + rhs.value(), self.currency()).into()
         } else {
             Mismatch(self.currency(), rhs.currency()).into()
         }

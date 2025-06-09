@@ -11,38 +11,38 @@
 [![Crates.io](https://img.shields.io/crates/l/oxydized-money)](https://github.com/meuter/oxydized-money-rs/blob/main/LICENSE)
 
 
-This crate aims at providing data types to manipulate amounts 
-of money in specific currencies, convert amounts between currencies 
+This crate aims at providing data types to manipulate amounts
+of money in specific currencies, convert amounts between currencies
 and make sure that any computation is performed on amounts of the same
 currency.
 
 ## Motivations
 
-This crate was introduced because all the existing known alternatives 
+This crate was introduced because all the existing known alternatives
 have some signigicant drawbacks:
 
-- using native floating point type like `f32` or `f64` suffer from their lack 
+- using native floating point type like `f32` or `f64` suffer from their lack
   of precision.
 - using [`rust_decimal::Decimal`](https://crates.io/crates/rust_decimal) solves
   this issue but does not prevent from adding amounts in different currency.
-- using [`rusty_money::Money`](https://crates.io/crates/rusty-money), although 
-  slightly better, does not really solve the conversion issue because performing 
-  arithmetic operations on amounts of different currencies panics. 
+- using [`rusty_money::Money`](https://crates.io/crates/rusty-money), although
+  slightly better, does not really solve the conversion issue because performing
+  arithmetic operations on amounts of different currencies panics.
 
-Rust being dedicated to proper error handling, all these options feel like 
-compromises. This crate aims to improve this by providing three distinct 
+Rust being dedicated to proper error handling, all these options feel like
+compromises. This crate aims to improve this by providing three distinct
 data types:
 
-- `Amount` for storing amounts in a given currency. 
-- `CurrencyError` for representing any errors (currency mismatch, ...) during 
+- `Amount` for storing amounts in a given currency.
+- `CurrencyError` for representing any errors (currency mismatch, ...) during
   arithmetic operations on `Amount`s.
-- `AmountResult` for storing the result of arithmetic operations 
+- `AmountResult` for storing the result of arithmetic operations
   (either an `Amount` or `CurrencyError`).
 
 Arithmetic operations are defined in such a way that these three types
-inte-roperate almost seemlessly. However, when performing an operation, 
+inte-roperate almost seemlessly. However, when performing an operation,
 the type of output always reflect whether an error could have occured.
-Operation that cannot fail will output `Amount`s and operations that 
+Operation that cannot fail will output `Amount`s and operations that
 can fail will outout `AmountResult`s. Before getting at the underlying
 `Amount`, `AmountResult`s need to be properly checked for errors.
 
@@ -101,7 +101,7 @@ assert_eq!(
 
 
 
-## Supported Operations 
+## Supported Operations
 
 ### Binary Operations
 
@@ -129,7 +129,7 @@ assert_eq!(
 | `AmountResult`  | {`==`,`!=`}          | `AmountResult`  | `bool`         |
 | `AmountResult`  | {`==`,`!=`}          | `CurrencyError` | `bool`         |
 
-#### `CurrencyError` 
+#### `CurrencyError`
 
 | Left Operand    | Operator             | Right Operand   |     Output     |
 |:----------------|:--------------------:|:----------------|:---------------|

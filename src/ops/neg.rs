@@ -5,7 +5,7 @@ impl Neg for Amount {
     type Output = Amount;
 
     fn neg(self) -> Self::Output {
-        Amount(-self.value(), self.currency())
+        Amount::new(-self.value(), self.currency())
     }
 }
 

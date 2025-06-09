@@ -1,3 +1,6 @@
+#[cfg(feature = "with_serde")]
+use serde::{Deserialize, Serialize};
+
 use crate::{AmountResult, Currency, CurrencyError, Decimal, Result};
 use std::{
     cmp::Ordering,
@@ -9,9 +12,23 @@ use std::{
 /// The quantity part is stored as a 128-bit fixed precision [`Decimal`].
 /// The currency part is stored as a [`Currency`].
 #[derive(Clone, Debug, Copy, PartialEq, Eq, Hash)]
-pub struct Amount(pub Decimal, pub Currency);
+#[cfg_attr(feature = "with_serde", derive(Serialize, Deserialize))]
+pub struct Amount {
+    value: Decimal,
+    currency: Currency,
+}
 
 impl Amount {
+    /// Creates a new amount
+    ///
+    /// # Arguments
+    ///
+    /// * `value` - the quantity of money
+    /// * `currency` - currency in which [`value`](Amount::value) is measured.
+    pub fn new(value: Decimal, currency: Currency) -> Self {
+        Self { value, currency }
+    }
+
     /// Returns the quantity of money.
     ///
     /// # Examples
@@ -23,7 +40,7 @@ impl Amount {
     /// assert_eq!(eur!(10.5).value(), dec!(10.5))
     /// ```
     pub fn value(&self) -> Decimal {
-        self.0
+        self.value
     }
 
     /// Returns the currency in which [`value`](Amount::value) is measured.
@@ -37,7 +54,7 @@ impl Amount {
     /// assert_eq!(usd!(10.5).currency(), USD)
     /// ```
     pub fn currency(&self) -> Currency {
-        self.1
+        self.currency
     }
 
     /// Returns the absolute value of `self`.
@@ -53,7 +70,7 @@ impl Amount {
     /// ```
     ///
     pub fn abs(&self) -> Self {
-        Amount(self.value().abs(), self.currency())
+        Amount::new(self.value().abs(), self.currency())
     }
 
     /// Returns `self` converted in another currency using the provided
@@ -74,7 +91,7 @@ impl Amount {
     /// assert_eq!(eur!(10.5).converted_to(USD, exchange_rate), usd!(10.5) * exchange_rate);
     ///
     pub fn converted_to(&self, target_currency: Currency, exchange_rate: Decimal) -> Self {
-        Amount(self.value() * exchange_rate, target_currency)
+        Amount::new(self.value() * exchange_rate, target_currency)
     }
 }
 
@@ -117,13 +134,13 @@ impl Deref for Amount {
     type Target = Decimal;
 
     fn deref(&self) -> &Self::Target {
-        &self.0
+        &self.value
     }
 }
 
 impl DerefMut for Amount {
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
+        &mut self.value
     }
 }
 
@@ -134,6 +151,8 @@ mod test {
     use oxydized_money::Decimal;
     use oxydized_money::{Currency::*, CurrencyError::*};
     use oxydized_money_macros::{dec, eur, usd};
+    #[cfg(feature = "with_serde")]
+    use serde_json::json;
     use std::cmp::Ordering::*;
 
     #[test]
@@ -174,5 +193,20 @@ mod test {
     fn test_as_ref_decimal() {
         assert!(eur!(-1).is_sign_negative());
         assert!(eur!(0).is_zero());
+    }
+
+    #[cfg(feature = "with_serde")]
+    #[test]
+    fn test_serde() {
+        assert_eq!(
+            serde_json::to_value(eur!(1)).unwrap(),
+            json!({ "value": "1", "currency" :"EUR"})
+        );
+
+        assert_eq!(
+            serde_json::from_value::<crate::Amount>(json!({ "value": "1", "currency" :"EUR"}))
+                .unwrap(),
+            eur!(1)
+        )
     }
 }
