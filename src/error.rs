@@ -1,3 +1,6 @@
+#[cfg(feature = "with_serde")]
+use serde::{Deserialize, Serialize};
+
 use crate::Currency;
 use std::{error::Error, fmt::Display};
 
@@ -6,6 +9,7 @@ use std::{error::Error, fmt::Display};
 /// [`AmounrResult`](crate::AmountResult).
 ///
 #[derive(Clone, Debug, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "with_serde", derive(Serialize, Deserialize))]
 pub enum CurrencyError {
     /// Error that occurs if one tries to perform arithmetic operations
     /// on amounts from differenc currencies.
@@ -66,6 +70,37 @@ mod test {
         assert_eq!(
             format!("{}", Mismatch(EUR, USD)),
             "mismatch currency 'EUR' and 'USD'"
+        );
+    }
+
+    #[cfg(feature = "with_serde")]
+    #[test]
+    fn test_serde() {
+        use serde_json::json;
+        use Currency::{EUR, USD};
+        use CurrencyError::*;
+
+        assert_eq!(serde_json::to_value(Unknown).unwrap(), json!("Unknown"));
+        assert_eq!(
+            serde_json::to_value(DivideByZero).unwrap(),
+            json!("DivideByZero")
+        );
+        assert_eq!(
+            serde_json::to_value(Mismatch(EUR, USD)).unwrap(),
+            json!({"Mismatch": ["EUR", "USD"]})
+        );
+
+        assert_eq!(
+            serde_json::from_value::<CurrencyError>(json!("Unknown")).unwrap(),
+            Unknown
+        );
+        assert_eq!(
+            serde_json::from_value::<CurrencyError>(json!("DivideByZero")).unwrap(),
+            DivideByZero
+        );
+        assert_eq!(
+            serde_json::from_value::<CurrencyError>(json!({"Mismatch": ["USD", "EUR"]})).unwrap(),
+            Mismatch(USD, EUR)
         );
     }
 }
