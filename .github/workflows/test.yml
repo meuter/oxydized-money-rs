@@ -15,3 +15,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Test with default feature
         run: cargo test --workspace
+      - name: Test with `with_serde` feature
+        run: cargo test --workspace -F with_serde
