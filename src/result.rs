@@ -1,3 +1,6 @@
+#[cfg(feature = "with_serde")]
+use serde::{Deserialize, Serialize};
+
 use std::{
     fmt::Display,
     iter::Sum,
@@ -20,6 +23,7 @@ use crate::{Amount, Currency, CurrencyError, Decimal, Result};
 /// [`std::result::Result<Amount, CurrencyError>`](Result).
 ///
 #[derive(Clone, Debug, Copy, Eq, PartialEq, Hash)]
+#[cfg_attr(feature = "with_serde", derive(Serialize, Deserialize))]
 pub struct AmountResult(pub(crate) Result<Amount>);
 
 impl AmountResult {
@@ -412,5 +416,31 @@ mod test {
         assert_eq!(accum, eur!(-6));
         accum -= usd!(1);
         assert_eq!(accum, W!(Mismatch(EUR, USD)));
+    }
+
+    #[cfg(feature = "with_serde")]
+    #[test]
+    fn test_serde() {
+        use serde_json::json;
+        assert_eq!(
+            serde_json::to_value(W!(eur!(1))).unwrap(),
+            json!({ "Ok": { "value": "1", "currency" :"EUR"}})
+        );
+        assert_eq!(
+            serde_json::to_value(W!(Unknown)).unwrap(),
+            json!({ "Err": "Unknown" })
+        );
+
+        assert_eq!(
+            serde_json::from_value::<AmountResult>(
+                json!({ "Ok": { "value": "1", "currency" :"EUR"}})
+            )
+            .unwrap(),
+            W!(eur!(1))
+        );
+        assert_eq!(
+            serde_json::from_value::<AmountResult>(json!({ "Err": "Unknown" })).unwrap(),
+            W!(Unknown)
+        );
     }
 }
