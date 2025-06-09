@@ -151,8 +151,6 @@ mod test {
     use oxydized_money::Decimal;
     use oxydized_money::{Currency::*, CurrencyError::*};
     use oxydized_money_macros::{dec, eur, usd};
-    #[cfg(feature = "with_serde")]
-    use serde_json::json;
     use std::cmp::Ordering::*;
 
     #[test]
@@ -198,6 +196,7 @@ mod test {
     #[cfg(feature = "with_serde")]
     #[test]
     fn test_serde() {
+        use serde_json::json;
         assert_eq!(
             serde_json::to_value(eur!(1)).unwrap(),
             json!({ "value": "1", "currency" :"EUR"})
