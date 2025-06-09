@@ -8,7 +8,7 @@ impl Div<Decimal> for Amount {
         if rhs.is_zero() {
             DivideByZero.into()
         } else {
-            Amount(self.value() / rhs, self.currency()).into()
+            Amount::new(self.value() / rhs, self.currency()).into()
         }
     }
 }

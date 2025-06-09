@@ -332,7 +332,7 @@ mod test {
 
     #[test]
     fn test_from() {
-        let res = W!(Amount(dec!(10), EUR));
+        let res = W!(Amount::new(dec!(10), EUR));
         let amount = Amount::try_from(res).unwrap();
         assert_eq!(amount.value(), dec!(10));
 

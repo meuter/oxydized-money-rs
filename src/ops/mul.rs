@@ -5,7 +5,7 @@ impl Mul<Decimal> for Amount {
     type Output = Amount;
 
     fn mul(self, rhs: Decimal) -> Self::Output {
-        Amount(self.value() * rhs, self.currency())
+        Amount::new(self.value() * rhs, self.currency())
     }
 }
 
